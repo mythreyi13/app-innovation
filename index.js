@@ -4,7 +4,7 @@ var pg = require('pg');
 
 app.get('/topperformers', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) { 
-    client.query('SELECT B.FirstName as name, A.FinServ__TotalRevenue__c as Revenue, A.Id as id FROM salesforce.account A join salesforce.user B', function(err, result) {
+    client.query('SELECT B.FirstName as name, A.FinServ__TotalRevenue__c as Revenue, A.Id as id FROM salesforce.account A, salesforce.user B where B.AccountId = A.Id', function(err, result) {
       done();
       if (err)
        { console.error(err); response.send("Error " + err); }
